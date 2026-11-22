@@ -4,9 +4,6 @@
 
 SafrMrtah is a multi-agent travel planner built with **LangGraph**, the **Model Context Protocol (MCP)** and **Groq**. A supervisor agent reads the request, validates it with an input guardrail, routes it to the specialist agents it needs, and pauses the workflow for a human decision (human-in-the-loop). Every step is checkpointed in **PostgreSQL**, so a plan survives a browser refresh, a server restart or a move to another machine.
 
-![SafrMrtah overview of a draft trip](docs/report/img/overview.png)
-
-<sub>Screenshot with sample data.</sub>
 
 ---
 
