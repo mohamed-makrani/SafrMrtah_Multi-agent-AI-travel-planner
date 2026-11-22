@@ -1,0 +1,28 @@
+# Render Blueprint for SafrMrtah.
+# Render dashboard -> New -> Blueprint -> pick this repository.
+# You will be asked for every value marked "sync: false".
+services:
+  - type: web
+    name: safrmrtah
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    # "free" sleeps after ~15 min without visits (first visit then takes
+    # about a minute). Use "starter" to keep it always on.
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: AVIATIONSTACK_API_KEY
+        sync: false
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: APP_USERNAME
+        value: admin
+      - key: APP_PASSWORD
+        sync: false

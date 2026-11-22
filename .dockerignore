@@ -1,0 +1,30 @@
+# Secrets: give them to the host as environment variables instead
+.env
+.env.*
+!.env.example
+
+# Local environments and caches
+.venv/
+venv/
+venv.bak/
+env/
+ENV/
+env.bak/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Not needed in the image
+.git/
+.gitignore
+_ui_backup/
+demo.excalidraw
+*.bat
+render.yaml
+DEPLOY.md
+get_current_weather
+get_flight_status
+tavily_search
+
+Claude outputs/
+docs/

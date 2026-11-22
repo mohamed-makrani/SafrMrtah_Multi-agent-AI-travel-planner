@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafrMrtah</title>
+  <meta name="description" content="Plan trips with AI agents for flights, hotels, weather, budget and itinerary.">
+  <link rel="preload" href="/static/fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/fonts/barlow-semi-condensed-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<!-- Line icons (paths adapted from Lucide, ISC licence) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="8" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.5"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.5"/><rect x="3.5" y="14.5" width="7" height="6" rx="1.5"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+  <symbol id="i-bed" viewBox="0 0 24 24"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M12 4v6"/><path d="M2 18h20"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.95 12.95a4 4 0 0 0-5.93-4.48"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+</svg>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><svg class="icon"><use href="#i-plane"/></svg></div>
+      <div class="brand-name">SafrMrtah</div>
+    </div>
+
+    <div class="side-scroll">
+
+      <nav class="side-nav" aria-label="Sections">
+        <button class="nav-item active" data-view="dashboard" onclick="switchView('dashboard')">
+          <svg class="icon" aria-hidden="true"><use href="#i-dashboard"/></svg><span class="nav-text">Overview</span><i class="nav-dot dot-ok"></i>
+        </button>
+        <button class="nav-item" data-view="flights" onclick="switchView('flights')">
+          <svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg><span class="nav-text">Flights</span><i class="nav-dot dot-off"></i>
+        </button>
+        <button class="nav-item" data-view="hotels" onclick="switchView('hotels')">
+          <svg class="icon" aria-hidden="true"><use href="#i-bed"/></svg><span class="nav-text">Hotels</span><i class="nav-dot dot-off"></i>
+        </button>
+        <button class="nav-item" data-view="weather" onclick="switchView('weather')">
+          <svg class="icon" aria-hidden="true"><use href="#i-cloud"/></svg><span class="nav-text">Weather</span><i class="nav-dot dot-off"></i>
+        </button>
+        <button class="nav-item" data-view="budget" onclick="switchView('budget')">
+          <svg class="icon" aria-hidden="true"><use href="#i-wallet"/></svg><span class="nav-text">Budget</span><i class="nav-dot dot-off"></i>
+        </button>
+        <button class="nav-item" data-view="itinerary" onclick="switchView('itinerary')">
+          <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg><span class="nav-text">Itinerary</span><i class="nav-dot dot-off"></i>
+        </button>
+        <button class="nav-item nav-item-secondary" data-view="report" onclick="switchView('report')">
+          <svg class="icon" aria-hidden="true"><use href="#i-file"/></svg><span class="nav-text">Full plan</span><i class="nav-dot dot-off"></i>
+        </button>
+      </nav>
+
+      <div class="side-label">Current trip</div>
+      <div class="side-trip" id="sidebarTrip">
+        <div class="side-trip-empty">No trip selected</div>
+      </div>
+
+      <div class="side-label side-label-row">
+        <span>Your trips</span>
+        <button class="side-new" onclick="startNewTrip()" title="Plan a new trip">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>New
+        </button>
+      </div>
+      <div class="session-list" id="sessionList">
+        <div class="session-empty">No trips yet.</div>
+      </div>
+
+
+    </div>
+
+
+  </aside>
+
+  <div class="sidebar-backdrop" onclick="closeSidebar()"></div>
+
+
+  <!-- Main -->
+  <div class="main" id="mainScroll">
+
+    <header class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open navigation">
+        <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+
+      <div class="topbar-brand">
+        <div class="topbar-title">SafrMrtah</div>
+        <div class="topbar-sub">AI travel intelligence</div>
+      </div>
+
+      <div class="topbar-crumb" id="topbarTrip"></div>
+
+      <div class="topbar-right">
+        <span class="online-pill hidden" data-online></span>
+        <button class="btn btn-primary btn-sm" onclick="startNewTrip()">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>New trip
+        </button>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <div id="errorBox" class="error-box hidden" role="alert"></div>
+
+      <!-- Human review of the selected draft -->
+      <section id="approvalSection" class="approval hidden" aria-live="polite">
+        <div class="approval-body">
+          <div class="approval-top">
+            <div>
+              <h2>Your plan is ready to check</h2>
+              <p id="approvalRequest" class="approval-text">Approve the plan as it is, or describe what should change.</p>
+            </div>
+            <span class="approval-trip" id="approvalTrip"></span>
+          </div>
+
+          <label class="field-label" for="approvalFeedback">Anything to change?</label>
+          <textarea id="approvalFeedback" class="textarea textarea-sm"
+            placeholder="For example: cheaper hotel, and keep day 3 free"></textarea>
+
+          <div class="approval-actions">
+            <button id="approveBtn" class="btn btn-success" onclick="submitApproval(true)">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg>Approve plan
+            </button>
+            <button id="reviseBtn" class="btn btn-outline" onclick="submitApproval(false)">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-refresh"/></svg>Request changes
+            </button>
+            <span id="approvalBusy" class="busy hidden"><span class="spinner spinner-dark"></span>Saving your choice <span data-elapsed>0:00</span></span>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Overview -->
+      <section id="view-dashboard" class="view active">
+
+        <div id="plannerCard" class="planner">
+          <div class="planner-head">
+            <h1>Where are you going?</h1>
+            <p>Describe your trip in your own words. We'll look at flights, hotels, weather and costs, then draft a day-by-day plan for you to check.</p>
+          </div>
+
+          <label class="field-label" for="userInput">Your trip</label>
+          <textarea id="userInput" class="textarea"
+            placeholder="5 days from Casablanca to Paris in March, mid-range hotel, museums and food"></textarea>
+
+          <div class="planner-foot">
+            <div class="quick-prompts" aria-label="Example requests">
+              <span class="quick-label">Try</span>
+              <button onclick="setPrompt('Plan a complete 7 days Japan trip from Bangladesh including flights, hotels and sightseeing under 2 lakhs.')">Japan, 7 days</button>
+              <button onclick="setPrompt('Plan a 5 days Dubai trip from Dhaka with flights, hotels, weather and sightseeing.')">Dhaka to Dubai</button>
+              <button onclick="setPrompt('Plan a 7 days Thailand trip from Bangladesh with budget hotels and sightseeing.')">Thailand on a budget</button>
+              <button onclick="setPrompt('Find flight information from Casablanca to Paris.')">Flights only</button>
+            </div>
+
+            <div class="planner-submit">
+              <span class="hint">Ctrl + Enter</span>
+              <button id="sendBtn" class="btn btn-primary btn-lg" onclick="sendMessage()">
+                <span id="btnText">Plan this trip</span>
+                <span id="btnLoader" class="spinner hidden" aria-label="Planning"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="runningPanel" class="running hidden" aria-live="polite">
+          <div class="running-head">
+            <span class="spinner spinner-dark"></span>
+            <div>
+              <strong>Planning your trip</strong>
+              <span>Looking at flights, hotels, weather and costs. <span data-elapsed>0:00</span></span>
+            </div>
+          </div>
+          <div class="running-track"><span></span></div>
+          <p class="muted small" style="margin:0">Everything appears at once when your plan is ready. You can keep this page open.</p>
+        </div>
+
+        <div id="dashboardContent"></div>
+      </section>
+
+
+      <!-- Domain views (rendered by script.js) -->
+      <section id="view-flights" class="view"><div id="flightsContent"></div></section>
+      <section id="view-hotels" class="view"><div id="hotelsContent"></div></section>
+      <section id="view-weather" class="view"><div id="weatherContent"></div></section>
+      <section id="view-budget" class="view"><div id="budgetContent"></div></section>
+      <section id="view-itinerary" class="view"><div id="itineraryContent"></div></section>
+
+
+      <!-- Full AI plan: raw answer, copy, PDF -->
+      <section id="view-report" class="view">
+        <div class="view-head">
+          <div>
+            <h1 id="resultTitle">Full plan</h1>
+            <div class="report-meta" id="reportMeta"></div>
+          </div>
+          <div class="view-head-right">
+            <button class="btn copy-btn" onclick="copyResult()">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-copy"/></svg>Copy text
+            </button>
+            <button class="btn btn-primary download-btn" onclick="downloadPDF()">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg>Download PDF
+            </button>
+          </div>
+        </div>
+
+        <div id="reportEmpty"></div>
+
+        <div id="reportBody" class="hidden">
+          <div class="panel">
+            <div id="pdfContent" class="pdf-content">
+              <div id="pdfHeader" class="pdf-header"></div>
+              <div id="resultBox" class="md result-box"></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="/static/script.js"></script>
+
+</body>
+</html>
